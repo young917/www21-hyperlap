@@ -1,5 +1,8 @@
 #include <iostream>
 #include <fstream>
+#include <stdio.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 #include <iomanip>
 #include <ctime>
 #include <set>
@@ -70,8 +73,10 @@ int main (int argc, char *argv[]){
 
     // Output homogeneity of hyperedges -----------------------------------------------------------------
     start = clock();
-    string writeFile = "./results/" + dataname + "/hyperedge_homogeneity_" + graphType + ".txt";
-
+    string outputdir = "./results/" + dataname;
+    mkdir(outputdir.c_str(), 0776);
+    string writeFile = outputdir + "/hyperedge_homogeneity_" + graphType + ".txt";
+    
     ofstream resultFile(writeFile.c_str());
     resultFile << "homogeneity" << endl;
     

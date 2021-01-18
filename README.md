@@ -19,7 +19,7 @@ In the papaer, we used datasets after removing duplicated hyperedges and size-1 
 ## Reproduction of Observations
 
 You can run 5 observations with thirteen datasets at the same time.
-The outputs will be saved in observation/results/[*data name*] directory, so you have to make this directory beforehand.
+The outputs will be saved in observation/results/[*data name*] directory.
 
 ```
 ./run.sh

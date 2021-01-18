@@ -1,5 +1,8 @@
 #include <iostream>
 #include <fstream>
+#include <stdio.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 #include <iomanip>
 #include <ctime>
 #include <set>
@@ -62,7 +65,9 @@ int main (int argc, char *argv[]){
 
     // Find egonet overlapness & Write file --------------------------------------------------------------
     start = clock();
-    string writeFile = "./results/" + dataname + "/egonet_overlapness_" + graphType + ".txt";
+    string outputdir = "./results/" + dataname;
+    mkdir(outputdir.c_str(), 0776);
+    string writeFile = outputdir + "/egonet_overlapness_" + graphType + ".txt";
     
     ofstream resultFile(writeFile.c_str());
     resultFile << "sum_hyperedge_size,num_nodes,egonet overlapness" << endl;
