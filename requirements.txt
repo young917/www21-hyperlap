@@ -1,0 +1,6 @@
+powerlaw
+matplotlib
+scipy
+pandas
+tqdm
+numpy
