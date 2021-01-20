@@ -1,6 +1,6 @@
 # How Do Hyperedges Overlap in Real-World Hypergraphs? - Patterns, Measures, and Generators
 
-Source code for (1) observation of overlapping patterns of real-world hypergraphs and (2) our graph generative model HyperLAP, described in the paper: How Do Hyperedges Overlap in Real-World Hypergraphs? - Patterns, Measures, and Generators, Geon Lee*, Minyoung Choe*, and Kijung Shin, WWW 2021.
+Source code for (1) observation of overlapping patterns of real-world hypergraphs and (2) our graph generative model HyperLAP, described in the paper: [How Do Hyperedges Overlap in Real-World Hypergraphs? - Patterns, Measures, and Generators] (https://arxiv.org/abs/2101.07480), Geon Lee*, Minyoung Choe*, and Kijung Shin, WWW 2021.
 
 (1) Observation of **overlapping patterns** of real-world hypergraphs
 * *Egonet Level*: Substantial overlaps of hyperedges in the egonet of each node in real-world hypergraphs.
