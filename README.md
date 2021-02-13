@@ -66,9 +66,9 @@ observation
         |__ email-Eu-full
                 |__ egonet_density_graph.txt			// result of egonet_density.cpp
                 |__ egonet_overlapness_graph.txt		// result of egonet_overlapness.cpp
-                |__ pair_degree_graph.txt				// result of pair_degree.cpp
-                |__ triple_degree_graph.txt			    // result of triple_degree.cpp
-                |__ hyperedge_homogeneity_graph.txt	    // result of hyperedge_homogeneity.cpp
+                |__ pair_degree_graph.txt			// result of pair_degree.cpp
+                |__ triple_degree_graph.txt			// result of triple_degree.cpp
+                |__ hyperedge_homogeneity_graph.txt	        // result of hyperedge_homogeneity.cpp
         |__ powerlaw_test.py
         |__ run_powerlaw_test.sh
         |__ plot_results.py
@@ -78,6 +78,6 @@ generator
     |__ main_nav.cpp	// HyperLap (uniform weights)
     |__ read_data.cpp	
     |__ tools.cpp
-    |__ run_adv.sh	    // Run HyperLap+
-    |__ run_nav.sh	    // Run HyperLap
+    |__ run_adv.sh      // Run HyperLap+
+    |__ run_nav.sh	// Run HyperLap
 ```
