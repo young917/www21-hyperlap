@@ -17,6 +17,10 @@ int main(int argc, char *argv[])
 {
 	clock_t start;
 
+	// UPDATE: use mt19937 random number generator
+	random_device rd;
+	mt19937 gen(rd());
+
 	// INPUT: (1) original hypergraph (2) number of Lvels
 	// execute run_nav.sh
 	//
@@ -53,8 +57,10 @@ int main(int argc, char *argv[])
 	for (int i = 0; i < V; i++) Vdeg.push_back((int)node2hyperedge[i].size());
 	for (int i = 0; i < E; i++) Esize.push_back((int)hyperedge2node[i].size());
 
-	random_shuffle(Vdeg.begin(), Vdeg.end());
-	random_shuffle(Esize.begin(), Esize.end());
+	// random_shuffle(Vdeg.begin(), Vdeg.end());
+	// random_shuffle(Esize.begin(), Esize.end());
+	shuffle(Vdeg.begin(), Vdeg.end(), gen);
+	shuffle(Esize.begin(), Esize.end(), gen);
 
 	int max_Esize = *max_element(Esize.begin(), Esize.end());
 	cout << "Max hyperedge size: " << max_Esize << endl;
@@ -124,17 +130,29 @@ int main(int argc, char *argv[])
 	for (int e = 0; e < E; e++){
 		int e_size = Esize[e];
 		
-		level = rand() % L;
-		group = rand() % (int)pow(2, level);
+		// level = rand() % L;
+		// group = rand() % (int)pow(2, level);
+
+		int pow2level = (int)pow(2, level);
+
+		uniform_int_distribution<> distrib(0, L - 1);
+		level = distrib(gen);
+		uniform_int_distribution<> distrib2(0, pow2level - 1);
+		group = distrib2(gen);		
 
 		while (level2group2V[level][group] < e_size){
-			level = rand() % L;
-			group = rand() % (int)pow(2, level);
+			// level = rand() % L;
+			// group = rand() % (int)pow(2, level);
+			level = distrib(gen);
+			group = distrib2(gen);
 		}
 
 		N.clear();
+		int group_size = level2group2V[level][group];
 		while (N.size() < e_size){
-			int idx = rand() % level2group2Vlist[level][group].size();
+			// int idx = rand() % level2group2Vlist[level][group].size();
+			uniform_int_distribution<> distrib3(0, group_size - 1);
+			int idx = distrib3(gen);
 			int v = level2group2Vlist[level][group][idx];
 			N.insert(v);
 		}
