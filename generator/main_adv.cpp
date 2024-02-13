@@ -24,6 +24,10 @@ int main(int argc, char *argv[])
 	string graphFile = "../dataset/" + dataname + "_graph.txt";
 	string genFile = "../dataset/" + dataname + "_gen.txt";
 
+	// UPDATE: use mt19937 random number generator
+	random_device rd;
+	mt19937 gen(rd());
+
 	// Read data
 	start = clock();
 	vector< vector<int> > node2hyperedge;
@@ -49,8 +53,11 @@ int main(int argc, char *argv[])
 	for (int i = 0; i < V; i++) Vdeg.push_back((int)node2hyperedge[i].size());
 	for (int i = 0; i < E; i++) Esize.push_back((int)hyperedge2node[i].size());
 
-	random_shuffle(Vdeg.begin(), Vdeg.end());
-	random_shuffle(Esize.begin(), Esize.end());
+	// random_shuffle(Vdeg.begin(), Vdeg.end());
+	// UPDATE: random_shuffle is deprecated, use shuffle instead
+	shuffle(Vdeg.begin(), Vdeg.end(), gen);
+	// random_shuffle(Esize.begin(), Esize.end());
+	shuffle(Esize.begin(), Esize.end(), gen);
 
 	int max_Esize = *max_element(Esize.begin(), Esize.end());
 	cout << "Max hyperedge size: " << max_Esize << endl;
@@ -105,8 +112,13 @@ int main(int argc, char *argv[])
 			int e_idx = idx.second;
 			for (int i = s_idx; i < e_idx; i++){
 				level2group2V[level][group]++;
+				// if Vdeg[i] = 0, print an ERROR message and exit
+				if (Vdeg[i] == 0){
+					cout << "ERROR: Vdeg[" << i << "] = 0" << endl;
+					exit(1);
+				}
 				for (int j = 0; j < Vdeg[i]; j++)
-					level2group2Vlist[level][group].push_back(i);
+					level2group2Vlist[level][group].push_back(i);					
 			}
 		}
 	}
@@ -135,7 +147,10 @@ int main(int argc, char *argv[])
 
 		N.clear();
 		while (N.size() < e_size){
-			int idx = rand() % level2group2Vlist[level][group].size();
+			// int idx = rand() % level2group2Vlist[level][group].size();
+			int group_size = level2group2Vlist[level][group].size();
+			uniform_int_distribution<> distrib(0, group_size - 1);
+			int idx = distrib(gen);
 			int v = level2group2Vlist[level][group][idx];
 			N.insert(v);
 		}
@@ -199,25 +214,40 @@ int main(int argc, char *argv[])
 			updE.clear();
 
 			pre_V2E = V2E;
-			pre_E2V = E2V;
+			pre_E2V = E2V;		
 			
 			/* update hyperedges (level l -> level l+1) */
 			while (level2Ecnt[level] < upd_Ecnt * (p + 1) and trial++ < MAX_TRIAL){
-				int pre_group = rand() % (int)pow(2, pre_level);
+				// int pre_group = rand() % (int)pow(2, pre_level);
+				int pow2level = (int)pow(2, pre_level);
+				uniform_int_distribution<> distrib(0, pow2level - 1);
+				int pre_group = distrib(gen);
+
 				if (level2group2E[pre_level][pre_group].size() == 0) continue;
 
-				int idx = rand() % level2group2E[pre_level][pre_group].size();
+				// int idx = rand() % level2group2E[pre_level][pre_group].size();
+				int group_size = level2group2E[pre_level][pre_group].size();
+				uniform_int_distribution<> distrib2(0, group_size - 1);
+				int idx = distrib2(gen);
+
 				if (level2group2Evisit[pre_level][pre_group][idx]) continue;
 
 				int e = level2group2E[pre_level][pre_group][idx];
 				int e_size = Esize[e];
+				
+				// int group = rand() % (int)pow(2, level);
+				pow2level = (int)pow(2, level);
+				uniform_int_distribution<> distrib3(0, pow2level - 1);
+				int group = distrib3(gen);
 
-				int group = rand() % (int)pow(2, level);
-				if (e_size > level2group2V[level][group]) continue;
+				if (e_size > level2group2V[level][group]) continue;				
+				group_size = level2group2Vlist[level][group].size();
 
 				N.clear();
 				while (N.size() < e_size){
-					int _idx = rand() % level2group2Vlist[level][group].size();
+					// int _idx = rand() % level2group2Vlist[level][group].size();
+					uniform_int_distribution<> distrib4(0, group_size - 1);
+					int _idx = distrib4(gen);
 					int v = level2group2Vlist[level][group][_idx];
 					N.insert(v);
 				}
