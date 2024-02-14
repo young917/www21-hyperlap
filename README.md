@@ -76,8 +76,10 @@ observation
 generator
     |__ main_adv.cpp	// HyperLap+
     |__ main_nav.cpp	// HyperLap (uniform weights)
+    |__ main_cl.cpp	    // HyperCL (null model)
     |__ read_data.cpp	
     |__ tools.cpp
     |__ run_adv.sh      // Run HyperLap+
-    |__ run_nav.sh	// Run HyperLap
+    |__ run_nav.sh	    // Run HyperLap
+    |__ run_cl.sh	    // Run HyperCL
 ```
